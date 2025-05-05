@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2 style="text-align:center;">Cadastro de Venda</h2>
+    <form action="/vendas/salvar" method="post">
+        <div>
+            <label for="cliente">Cliente:</label>
+            <select name="idcliente" id="cliente" required>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.idcliente }}">{{ cliente.nome }}</option>
+                {% endfor %}
+            </select>
+            <label for="produto">Produto:</label>
+            <select name="idproduto" id="produto" required>
+                {% for produto in produtos %}
+                    <option value="{{ produto.idproduto }}"
+                            data-nome="{{ produto.nome }}"
+                            data-preco="{{ produto.preco }}"
+                            data-estoque="{{produto.qtde}}">
+                    {{ produto.nome }}</option>
+                {% endfor %}
+            </select>
+            <label for="qtde">Quantidade:</label>
+            <input type="number" name="qtde" id="qtde" min="1" required>
+            <button type="button" onclick="inserir_itemvenda()">Adicionar Item</button>
+        </div>
+        <table id="tabela" style="width: 80%">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Valor</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+        </table>
+        <div style="text-align:center;">
+            <button type="submit">Concluir</button>
+        </div>
+        <input type="hidden" name="itens_json" id="itens_json">
+    </form>
+    <div style="text-align:center;">
+        <a href="/vendas"><button>Voltar</button></a>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
