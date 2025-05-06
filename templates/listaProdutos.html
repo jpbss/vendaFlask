@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2 class="center">{{ titulo }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 70%">Nome</th>
+                <th style="width: 15%">Quantidade</th>
+                <th style="width: 15%">Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in lista %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.qtde }}</td>
+                <td>{{ produto.preco }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="center">
+        <a href="/"><button>Voltar</button></a>
+        <a href="/produtos/cadastrar"><button>Cadastrar</button></a>
+    </div>
+</body>
+</html>

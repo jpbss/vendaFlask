@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes Venda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detalhesVenda.css') }}">
+</head>
+<body>
+    <h2 style="text-align: center">{{ titulo }}</h2>
+
+    <table class="detalhes">
+        <tr>
+            <th class="detalhes-th">Cliente: </th>
+            <th class="detalhes-th">{{venda.cliente.nome}}</th>
+        </tr>
+        <tr>
+            <th class="detalhes-th">Total: </th>
+            <th class="detalhes-th">R$ {{venda.valortotal}}</th>
+        </tr>
+    </table>
+    <table class="tabela-itens">
+        <caption><h3 style="text-align: center">Itens venda</h3></caption>
+        <thead>
+            <tr>
+                <th style="width: 40%" class="itens-th">Produto</th>
+                <th style="width: 20%" class="itens-th">Valor</th>
+                <th style="width: 20%" class="itens-th">Quantidade</th>
+                <th style="width: 20%" class="itens-th">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in venda.items %}
+                <tr>
+                    <td class="itens">{{item.idproduto}}</td>
+                    <td class="itens">{{item.valor}}</td>
+                    <td class="itens">{{item.qtde}}</td>
+                    <td class="itens">{{item.qtde*item.valor}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="text-align:center;">
+        <a href="/vendas"><button>Voltar</button></a>
+    </div>
+</body>
+</html>
