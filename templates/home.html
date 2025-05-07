@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-      <h2 style="text-align:center;">Home</h2>
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/vendas">Vendas</a>
+    </nav>
 
-      <div >
-          <a href="/clientes"><button>Cliente</button></a>
-          <a href="/produtos"><button>Produto</button></a>
-          <a href="/vendas"><button>Vendas</button></a>
-      </div>
+    <h2 style="text-align:center;">Home</h2>
 
 </body>
 </html>

@@ -1,74 +1,69 @@
-function inserir_itemvenda() {
-   var table = document.getElementById("tabela");
-   var produto = document.getElementById("produto");
-   var idproduto = produto.value;
-   var produtoAtributos = produto.options[produto.selectedIndex];
+let itens = [];
 
-   var qtde = parseInt(document.getElementById("qtde").value)
-   if (isNaN(qtde) || qtde <= 0) {
+function inserir_itemvenda() {
+    const selectProduto = document.getElementById("produto");
+    const idproduto = selectProduto.value;
+    const nome = selectProduto.options[selectProduto.selectedIndex].getAttribute("data-estoque");
+    const preco = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute("data-preco"));
+    const qtde = parseInt(document.getElementById("qtde").value);
+    const estoque = parseInt(selectProduto.options[selectProduto.selectedIndex].getAttribute("data-estoque"));
+
+    if (!qtde || qtde <= 0) {
         alert("Informe uma quantidade válida.");
         return;
-   }
+    }
 
-   var valor = parseFloat(produtoAtributos.getAttribute("data-preco"))
-   var estoque = parseInt(produtoAtributos.getAttribute("data-estoque"))
+    const indexExistente = itens.findIndex(item => item.idproduto === idproduto);
+    const qtdeExistente = indexExistente !== -1 ? itens[indexExistente].qtde : 0;
 
-   var linhas = table.getElementsByTagName("tr");
-   for (let i = 1; i < linhas.length; i++) {
-        let colunas = linhas[i].getElementsByTagName("td");
-        if (colunas[0].innerText === idproduto) {
-            let qtdeAtual = parseInt(colunas[2].innerText);
-            let novaQtde = qtdeAtual + qtde;
+    const qtdeTotal = qtdeExistente + qtde;
 
-            if (novaQtde > estoque) {
-                alert("Estoque insuficiente! Estoque disponível: " + estoque);
-                return;
-            }
-
-            colunas[2].innerText = novaQtde;
-            colunas[4].innerText = (novaQtde * valor).toFixed(2);
-            return;
-        }
-
-   }
-
-   if (qtde > estoque) {
-        alert("Estoque insuficiente! Estoque disponível: " + estoque);
+    if (qtdeTotal > estoque) {
+        alert(`Estoque insuficiente! Disponível: ${estoque}`);
         return;
     }
 
-   var row = table.insertRow(-1);
-   row.insertCell(0).innerHTML = idproduto
-
-   row.insertCell(1).innerHTML = produtoAtributos.getAttribute("data-nome");
-
-   row.insertCell(2).innerHTML = qtde;
-
-   row.insertCell(3).innerHTML = valor.toFixed(2)
-
-   row.insertCell(4).innerHTML = (valor * qtde).toFixed(2)
-
-}
-
-clientesFiltrados[{idcliente: 1, nome:"João", endereco:"Avenida"}]
-
-document.querySelector("form").addEventListener("submit", function () {
-    const tabela = document.getElementById("tabela");
-    const linhas = tabela.getElementsByTagName("tr");
-    let itens = [];
-
-    for (let i = 1; i < linhas.length; i++) {
-        const colunas = linhas[i].getElementsByTagName("td");
-
-        const item = {
-            idproduto: parseInt(colunas[0].innerText),
-            nome: colunas[1].innerText,
-            qtde: parseInt(colunas[2].innerText),
-            valor: parseFloat(colunas[3].innerText)
-        };
+    if (indexExistente !== -1) {
+        itens[indexExistente].qtde += qtde;
+    } else {
+        const item = { idproduto, nome, qtde, valor: preco };
         itens.push(item);
-
     }
 
+    atualizarTabela();
+}
+
+function remover_item(index) {
+    itens.splice(index, 1);
+    atualizarTabela();
+}
+
+function atualizarTabela() {
+    const tabela = document.getElementById("tabela");
+    tabela.innerHTML = `
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Subtotal</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${itens.map((item, index) => `
+                <tr>
+                    <td>${item.idproduto}</td>
+                    <td>${item.nome}</td>
+                    <td>${item.qtde}</td>
+                    <td>${(item.valor).toFixed(2)}</td>
+                    <td>${(item.qtde * item.valor).toFixed(2)}</td>
+                    <td><button type="button" onclick="remover_item(${index})">Remover</button></td>
+                </tr>
+            `).join("")}
+        </tbody>
+    `;
+
     document.getElementById("itens_json").value = JSON.stringify(itens);
-});
+}

@@ -6,21 +6,43 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/vendas">Vendas</a>
+    </nav>
+
+
     <h2 style="text-align:center;">Cadastro de Produto</h2>
 
-    <form action="/produtos/salvar" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" required>
+    <form action="{{ '/produtos/atualizar' if produto else '/produtos/salvar' }}" method="post">
+        <div class="form-row">
+            {% if produto %}
+                <input type="hidden" name="idproduto" value="{{ produto.idproduto }}">
+            {% endif %}
+        </div>
+        <div class="form-row">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" value="{{ produto.nome if produto else '' }}" required>
+        </div>
 
-        <label for="qtde">Quantidade:</label>
-        <input type="number" name="qtde" id="qtde" min="1" required>
+        <div class="form-row">
+            <label for="qtde">Quantidade:</label>
+            <input type="number" name="qtde" id="qtde" min="1" value="{{ produto.qtde if produto else '' }}" required>
+        </div>
 
-        <label for="preco">Preço:</label>
-        <input type="number" name="preco" id="preco" min="1" required>
+        <div class="form-row">
+            <label for="preco">Preço:</label>
+            <input type="number" name="preco" id="preco" min="1" value="{{ produto.preco if produto else '' }}" required>
+        </div>
 
-        <input type="submit" value="Cadastrar">
+        <div style="text-align:center;">
+            <input type="submit" value="{{ 'Atualizar' if produto else 'Cadastrar' }}">
+        </div>
     </form>
-
+    </br>
     <div style="text-align:center;">
         <a href="/produtos"><button>Voltar</button></a>
     </div>

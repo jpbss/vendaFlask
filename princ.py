@@ -1,4 +1,5 @@
 import json
+from doctest import debug
 
 from flask import Flask, render_template, request, redirect
 
@@ -47,6 +48,22 @@ def salvar_cliente():
 
     return redirect('/clientes')
 
+@app.route('/clientes/editar/<int:idcliente>')
+def editar_cliente(idcliente):
+    c = Cliente()
+    c.idcliente = idcliente
+    cliente = clienteDAO.pesquisa_codigo(c)
+    return render_template('cadastroCliente.html', cliente=cliente, titulo="Editar Cliente")
+
+@app.route('/clientes/atualizar', methods=['POST'])
+def atualizar_cliente():
+    c = Cliente()
+    c.idcliente = int(request.form['idcliente'])
+    c.nome = request.form['nome']
+    c.endereco = request.form['endereco']
+    clienteDAO.alterar_cliente(c)
+    return redirect('/clientes')
+
 #produtos
 @app.route('/produtos')
 def produtos():
@@ -69,6 +86,23 @@ def salvar_produto():
 
     produtoDAO.incluir_produto(p)
 
+    return redirect('/produtos')
+
+@app.route('/produtos/editar/<int:idproduto>')
+def editar_produto(idproduto):
+    p = Produto()
+    p.idproduto = idproduto
+    produto = produtoDAO.pesquisar_codigo(p)
+    return render_template('cadastroProduto.html', produto=produto, titulo="Editar Produto")
+
+@app.route('/produtos/atualizar', methods=['POST'])
+def atualizar_produto():
+    p = Produto()
+    p.idproduto = int(request.form['idproduto'])
+    p.nome = request.form['nome']
+    p.qtde = request.form['qtde']
+    p.preco = request.form['preco']
+    produtoDAO.alterar_produto(p)
     return redirect('/produtos')
 
 #venda
@@ -120,4 +154,4 @@ def detalhes_venda(idvenda):
     return render_template('detalhesVenda.html', venda=v, titulo="Detalhes da venda")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)

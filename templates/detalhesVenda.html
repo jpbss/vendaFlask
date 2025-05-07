@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes Venda</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/detalhesVenda.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/vendas">Vendas</a>
+    </nav>
+
+
     <h2 style="text-align: center">{{ titulo }}</h2>
 
     <table class="detalhes">
@@ -32,9 +41,9 @@
             {% for item in venda.items %}
                 <tr>
                     <td class="itens">{{item.idproduto}}</td>
-                    <td class="itens">{{item.valor}}</td>
+                    <td class="itens">R$ {{item.valor}}</td>
                     <td class="itens">{{item.qtde}}</td>
-                    <td class="itens">{{item.qtde*item.valor}}</td>
+                    <td class="itens">R$ {{item.qtde*item.valor}}</td>
                 </tr>
             {% endfor %}
         </tbody>

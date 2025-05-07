@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/vendas">Vendas</a>
+    </nav>
+
     <h2 class="center">{{ titulo }}</h2>
 
     <table>
@@ -22,7 +29,7 @@
             <tr>
                 <td>{{ venda.data }}</td>
                 <td>{{ venda.cliente.nome }}</td>
-                <td>{{ venda.valortotal }}</td>
+                <td>R$ {{ venda.valortotal }}</td>
                 <td><a href="/vendas/detalhes/{{venda.idvenda}}"><button>Detalhes</button></a></td>
             </tr>
             {% endfor %}
