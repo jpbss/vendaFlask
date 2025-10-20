@@ -60,5 +60,5 @@ A aplicação está organizada da seguinte forma:
     python princ.py
     ```
 
-4.  **Aceder ao Sistema:**
-    Abra o seu navegador e aceda ao endereço `http://127.0.0.1:5000` (ou o host configurado no `app.run`).
+4.  **Entrar no Sistema:**
+    Abra o seu navegador e entre no endereço `http://127.0.0.1:5000` (ou o host configurado no `app.run`).
